@@ -1,0 +1,23 @@
+package json;
+      import org.json.simple.*;
+import java.io.*;
+public class Json {
+     public static void main(String[] args) {
+                JSONObject obj = new JSONObject();
+        obj.put("name", "xyz");
+        obj.put("age",30);
+        obj.put("Designation","Asst.Prof");
+        obj.put("Exp",10);
+JSONArray list = new JSONArray();
+        list.add("1234567892");
+        list.add("9123456789");
+        obj.put("phone", list);
+        
+        JSONArray address=new JSONArray();
+        address.add("MCOERC,Nashik");
+        address.add("Nashik");
+        obj.put("address",address);
+        System.out.println("JSON Object Getting Created Successfully"); 
+        System.out.print(obj);   
+          }
+    }

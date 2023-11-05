@@ -1,0 +1,68 @@
+
+CREATE TABLE library (
+book_id INT AUTO_INCREMENT PRIMARY KEY,
+title VARCHAR(255) NOT NULL,
+author VARCHAR(255) NOT NULL,
+description TEXT,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO library (title, author, description) VALUES
+('Book 1', 'Author 1', 'Description for Book 1'),
+('Book 2', 'Author 2', 'Description for Book 2'),
+('Book 3', 'Author 3', 'Description for Book 3');
+
+-- Create the library_audit table to store the audit log.
+CREATE TABLE library_audit (
+action VARCHAR(10),
+timestamp TIMESTAMP,
+book_id INT,
+title VARCHAR(255),
+author VARCHAR(255),
+description TEXT
+);
+
+-- Create a trigger for updates on the library table.
+DELIMITER $$
+CREATE TRIGGER library_update_trigger
+AFTER UPDATE ON library FOR EACH ROW
+BEGIN
+INSERT INTO library_audit (action, timestamp, book_id, title, author, description)
+VALUES ('UPDATE', NOW(), OLD.book_id, OLD.title, OLD.author, OLD.description);
+END;
+$$
+DELIMITER ;
+
+-- Create a trigger for deletions on the library table.
+DELIMITER $$
+CREATE TRIGGER library_delete_trigger
+AFTER DELETE ON library FOR EACH ROW
+BEGIN
+INSERT INTO library_audit (action, timestamp, book_id, title, author, description)
+VALUES ('DELETE', NOW(), OLD.book_id, OLD.title, OLD.author, OLD.description);
+END;
+$$
+DELIMITER ;
+
+
+SELECT * FROM library_audit;
+
+INSERT INTO library (title, author, description) VALUES
+('Book 1', 'Author 1', 'Description for Book 1'),
+('Book 2', 'Author 2', 'Description for Book 2'),
+('Book 3', 'Author 3', 'Description for Book 3');
+
+
+SELECT * FROM library_audit;
+
+UPDATE library
+SET title = 'New Title', description = 'New Description'
+WHERE book_id = 2;
+
+SELECT * FROM library_audit;
+
+DELETE FROM library
+WHERE book_id = 3;
+
+SELECT * FROM library_audit;
+

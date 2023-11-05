@@ -1,0 +1,14 @@
+db.student.insert({rollno:"101",sname:"rahul",sadd:"ram nagar",city:"nashik",phone:"1234567",birthdate:"20-02-2017"})
+db.student.insert({rollno:"102",sname:"radhika",sadd:"sai nagar",city:"pune",phone:"12367867",birthdate:"21-03-2017"})
+db.student.insert({rollno:"103",sname:"arnav",sadd:"dadar",city:"mumbai",phone:"123678977",birthdate:"06-06-2017"})
+db.student.insert({rollno:"104",sname:"asta",sadd:"ram nagar",city:"nashik",phone:"1236789",birthdate:"06-07-2017"})
+db.student.find().pretty()
+db.student.update({'rollno':'103'},{$set:{'city':'pune'}})
+db.student.find().pretty()
+db.student.find().pretty()
+db.student.remove({'rollno':'101'})
+db.student.drop()
+sb.student.find()
+db.dropDatabase()
+
+
